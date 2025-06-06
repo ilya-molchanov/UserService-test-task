@@ -6,7 +6,15 @@
 
         CannotUpdate = 102,
 
-        ParentItemNotFound = 103,
+        UserWithGivenEmailAlreadyExists = 103,
+
+        EmptyName = 104,
+
+        EmptyEmail = 105,
+
+        EmptyPassword = 106,
+
+        InvalidEmail = 107,
 
         BadRequest = 400,
 

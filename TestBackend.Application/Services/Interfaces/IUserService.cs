@@ -1,4 +1,5 @@
 ﻿using TestBackend.Internal.BusinessObjects;
+using TestBackend.ServiceLibrary.Enums;
 
 namespace TestBackend.Application.Services.Interfaces
 {
@@ -6,8 +7,8 @@ namespace TestBackend.Application.Services.Interfaces
     {
         Task<int> CreateUserAsync(CreateUserDto userDto, CancellationToken cancellationToken = default);
 
-        Task<IEnumerable<UserDto>> GetUsersAsync(CancellationToken cancellationToken = default);
+        Task<IEnumerable<string>> GetUserNamesAsync();
 
-        Task UpdateUserRoleAsync(UpdateUserRoleDto userDto, CancellationToken cancellationToken = default);
+        Task<ResultOperation> UpdateUserRoleAsync(UpdateUserRoleDto userDto, CancellationToken cancellationToken = default);
     }
 }

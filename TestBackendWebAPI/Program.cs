@@ -1,8 +1,9 @@
-using BackendTest.WebApi.Filters.Exception;
 using Microsoft.OpenApi.Models;
 using TestBackend.Application.Services.Interfaces;
 using TestBackend.Application.Services;
 using TestBackend.ServiceLibrary;
+using BackendTestWebAPI.Application.Services;
+using BackendTest.WebApi.Filters.Exception;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,15 +31,7 @@ builder.Services.Add(new ServiceDescriptor(
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(builder =>
-    {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
-});
+builder.Services.AddSingleton<IWebSocketService, WebSocketService>();
 
 var app = builder.Build();
 
@@ -48,6 +41,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+var webSocketOptions = new WebSocketOptions
+{
+    KeepAliveInterval = TimeSpan.FromMinutes(3)
+};
+app.UseWebSockets(webSocketOptions);
 
 app.UseRouting();
 

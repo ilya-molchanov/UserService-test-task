@@ -27,21 +27,21 @@ namespace TestBackend.ServiceLibrary.Repositories
             return await _connectionWrapper.ExecuteAsync(query, parameters);
         }
 
-        public async Task<IEnumerable<SqlUser>> GetUsersAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<SqlUser>> GetUsersAsync()
         {
             var query = "SELECT [Id], [Name], [Email], [Password], [Role] FROM [dbo].[Users]";
 
             return await _connectionWrapper.QueryAsync<SqlUser>(query);
         }
 
-        public async Task<SqlUser?> GetUserByIdAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<SqlUser?> GetUserByIdAsync(int id)
         {
             var query = "SELECT [Id], [Name], [Email], [Password], [Role] FROM [dbo].[Users] WHERE [Id] = @userId";
 
             var parameters = new DynamicParameters();
             parameters.Add("@userId", id);
 
-            return (await _connectionWrapper.QueryAsync<SqlUser>(query)).FirstOrDefault();
+            return (await _connectionWrapper.QueryAsync<SqlUser>(query, parameters)).FirstOrDefault();
         }
 
         public async Task<ResultOperation> UpdateUserRoleAsync(int userId, int newRole, CancellationToken cancellationToken = default)
@@ -56,6 +56,16 @@ namespace TestBackend.ServiceLibrary.Repositories
             ResultOperation resultEnum = (ResultOperation)(result);
 
             return resultEnum;
+        }
+
+        public async Task<bool> DoesUserExistByEmailAsync(string userEmail)
+        {
+            var query = "SELECT TOP (1) [Id] FROM [dbo].[Users] WHERE [Email] = '@userEmail'";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@userEmail", userEmail);
+
+            return (await _connectionWrapper.QueryAsync<SqlUser>(query, parameters)) != null;
         }
     }
 }

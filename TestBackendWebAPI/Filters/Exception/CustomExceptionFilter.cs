@@ -35,14 +35,20 @@ namespace BackendTest.WebApi.Filters.Exception
                 switch (webApiEx.InternalApiBusinessErrorCode)
                 {
                     case InternalApiErrorCodes.ItemNotFound:
-                    case InternalApiErrorCodes.ParentItemNotFound:
                         statusCode = HttpStatusCode.NotFound;
                         break;
                     case InternalApiErrorCodes.CannotUpdate:
                         statusCode = HttpStatusCode.UnprocessableContent;
                         break;
+                    case InternalApiErrorCodes.EmptyName:
+                    case InternalApiErrorCodes.EmptyEmail:
+                    case InternalApiErrorCodes.EmptyPassword:
+                    case InternalApiErrorCodes.InvalidEmail:
                     case InternalApiErrorCodes.BadRequest:
                         statusCode = HttpStatusCode.BadRequest;
+                        break;
+                    case InternalApiErrorCodes.UserWithGivenEmailAlreadyExists:
+                        statusCode = HttpStatusCode.Conflict;
                         break;
                     default:
                         statusCode = HttpStatusCode.InternalServerError;
