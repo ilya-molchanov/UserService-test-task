@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TestBackend.Data\TestBackend.Application.csproj" />
+    <ProjectReference Include="..\TestBackend.Application\TestBackend.Application.csproj" />
     <ProjectReference Include="..\TestBackend.Internal\TestBackend.Internal.csproj" />
     <ProjectReference Include="..\TestBackend.ServiceLibrary\TestBackend.ServiceLibrary.csproj" />
   </ItemGroup>
